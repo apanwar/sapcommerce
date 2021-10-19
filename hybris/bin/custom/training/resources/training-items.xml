@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			xsi:noNamespaceSchemaLocation="items.xsd">
+
+	<collectiontypes>
+		<collectiontype elementtype="Employee" code="SetOfEmployees" type="set"/>
+	</collectiontypes>
+
+	<enumtypes>
+		<enumtype code="FuelType">
+			<value code="gasoline"/>
+			<value code="diesel"/>
+			<value code="ethenol"/>
+		</enumtype>
+	</enumtypes>
+
+	<relations>
+		<relation localized="false" code="CarsToEmployeesRelation">
+			<deployment table="cars2employeesrel" typecode="20003"/>
+			<sourceElement type="Car" navigable="false" cardinality="many" collectiontype="list"/>
+			<targetElement type="Employee" qualifier="mechanics" cardinality="many" collectiontype="set"/>
+		</relation>
+	</relations>
+
+	<itemtypes>
+		
+		<itemtype code="Product" autocreate="false" generate="false">
+			<attributes>
+				<attribute type="java.lang.String" qualifier="engineNumber">
+					<modifiers optional="false"/>
+					<persistence type="property"/>
+				</attribute>
+				<attribute type="java.lang.String" qualifier="chasisNumber">
+					<modifiers optional="false"/>
+					<persistence type="property"/>
+				</attribute>
+				<attribute type="java.lang.Integer" qualifier="model">
+					<persistence type="property"/>
+				</attribute>
+			</attributes>
+		</itemtype>
+		
+		<itemtype code="Car" extends="Product">
+			<attributes>
+				<attribute type="java.lang.Integer" qualifier="kw">
+					<modifiers optional="false"/>
+					<description>Killo watt</description>
+					<persistence type="property"/>
+					<defaultvalue>java.lang.Integer.valueOf(0)</defaultvalue>
+				</attribute>
+				<attribute type="FuelType" qualifier="fuelType">
+					<description>Fuel type</description>
+					<persistence type="property"/>
+				</attribute>
+				<attribute type="Employee" qualifier="defaultMechanic">
+					<persistence type="property"/>
+				</attribute>
+			</attributes>
+		</itemtype>
+		
+		<itemtype code="Truck" extends="Product">
+			<attributes>
+				<attribute type="java.lang.Integer" qualifier="capacity">
+					<description>Capacity in tons</description>
+					<persistence type="property"/>
+				</attribute>
+				
+				<attribute type="java.lang.Integer" qualifier="model" redeclare="true">
+					<modifiers optional="false"/>
+					<persistence type="property"/>
+				</attribute>
+				
+				<attribute type="SetOfEmployees" qualifier="drivers">
+					<persistence type="property"/>
+				</attribute>
+			</attributes>
+		</itemtype>
+		
+	</itemtypes>
+</items>
