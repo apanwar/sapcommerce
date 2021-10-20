@@ -1,0 +1,10 @@
+$catalogVersion=catalogVersion(catalog(id[default=Default]),version[default=Staged])
+$mechanic=defaultMechanic(uid)
+
+$lang=en
+
+INSERT_UPDATE Car;code[unique=true];$catalogVersion;chasisNumber;engineNumber;model;$mechanic;name[lang=$lang];description[lang=$lang]
+;c0001;;BNMBMBM54465;JKGKJ87453;2010;m0002;MG Hector Plus;The 6/7 seater SUV from MG Motors
+
+INSERT_UPDATE Employee;uid[unique=true];name
+;m0002;Test Mechanic 2

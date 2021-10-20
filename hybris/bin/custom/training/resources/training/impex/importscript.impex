@@ -1,0 +1,10 @@
+$catalogVersion=catalogVersion(catalog(id[default=Default]),version[default=Staged])
+$mechanic=defaultMechanic(uid)
+
+$lang=en
+
+INSERT_UPDATE Car;code[unique=true];$catalogVersion;chasisNumber;engineNumber;model;$mechanic;name[lang=$lang];description[lang=$lang]
+"#% impex.includeExternalDataMedia( ""Car.impex"" , ""UTF-8"", ';',  1 , -1 );"
+
+INSERT_UPDATE Employee;uid[unique=true];name
+"#% impex.includeExternalDataMedia( ""Employee.impex"" , ""UTF-8"", ';',  1 , -1 );"
