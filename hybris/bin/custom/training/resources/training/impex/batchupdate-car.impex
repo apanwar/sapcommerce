@@ -1,0 +1,10 @@
+$catalog=trainingCatalog
+$catalogVersion=catalogVersion(catalog(id[default=$catalog]),version[default=Staged])
+
+# To mark all Cars approval status as approved in the trainingCatalog:Staged version
+UPDATE Car[batchmode=true];$catalogVersion[unique=true];approvalStatus(code)
+;;approved
+
+# To set the sales unit for all cars to pieces
+UPDATE Car[batchmode=true];itemtype(code)[unique=true];unit(code)
+;Car;pieces
