@@ -83,4 +83,5 @@
         <property name="flexibleSearchService" ref="flexibleSearchService"/>
     </bean>
 			
+	<bean id="hpDynamicAttributeHandler" class="org.training.attributehandlers.HpDynamicAttributeHandler"/>
 </beans>

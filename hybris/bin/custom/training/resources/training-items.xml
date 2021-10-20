@@ -62,6 +62,10 @@
 				<attribute type="Employee" qualifier="defaultMechanic">
 					<persistence type="property"/>
 				</attribute>
+				<attribute type="java.lang.Integer" qualifier="hp">
+					<modifiers write="false"/>
+					<persistence type="dynamic" attributeHandler="hpDynamicAttributeHandler"/>
+				</attribute>
 			</attributes>
 		</itemtype>
 		
