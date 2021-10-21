@@ -11,16 +11,16 @@
 	<!--
 		Example Data POJO
 	
-	<bean class="org.training.data.AbstractPojo" abstract="true">
+	<bean class="org.training.facade.data.AbstractPojo" abstract="true">
 		<property name="id" type="String"/>
 		<property name="flag" type="boolean"/>
 	</bean>
 
-	<bean class="org.training.data.MyPojo" extends="org.training.data.AbstractPojo">
+	<bean class="org.training.facade.data.MyPojo" extends="org.training.facade.data.AbstractPojo">
 		<property name="message" type="String"/>
 	</bean>
 
-	<bean class="org.training.data.AnnotatedPojo">
+	<bean class="org.training.facade.data.AnnotatedPojo">
 
 		<import type="javax.xml.bind.annotation.XmlRootElement"/>
 		<import type="javax.xml.bind.annotation.XmlElements"/>
