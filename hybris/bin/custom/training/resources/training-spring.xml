@@ -96,4 +96,29 @@
 		<property name="interceptor" ref="carInitDefaultsInterceptor"/>
 	</bean>
 	
+	<bean id="carLoadInterceptor" class="org.training.interceptors.CarLoadInterceptor"/>
+	
+	<bean class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+		<property name="typeCode" value="Car"/>
+		<property name="interceptor" ref="carLoadInterceptor"/>
+	</bean>
+	
+	<bean id="carPrepareInterceptor" class="org.training.interceptors.CarPrepareInterceptor"/>
+		
+	<bean class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+		<property name="typeCode" value="Car"/>
+		<property name="interceptor" ref="carPrepareInterceptor"/>
+	</bean>
+	
+	<bean id="carValidateInterceptor" class="org.training.interceptors.CarValidateInterceptor"/>
+	<bean class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+		<property name="typeCode" value="Car"/>
+		<property name="interceptor" ref="carValidateInterceptor"/>
+	</bean>
+	
+	<bean id="carRemoveInterceptor" class="org.training.interceptors.CarRemoveInterceptor"/>
+	<bean class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+		<property name="typeCode" value="Car"/>
+		<property name="interceptor" ref="carRemoveInterceptor"/>
+	</bean>
 </beans>

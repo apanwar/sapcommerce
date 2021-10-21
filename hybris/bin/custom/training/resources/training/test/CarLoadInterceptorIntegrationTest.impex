@@ -1,0 +1,10 @@
+INSERT_UPDATE Catalog;id[unique=true];name[lang=en]
+;trainingCatalog;Training Catalog
+
+INSERT_UPDATE CatalogVersion;catalog(id)[unique=true];version[unique=true]
+;trainingCatalog;Staged
+
+INSERT_UPDATE Car;code[unique=true];name[lang=en]
+;car0001;
+;car0002;Hyndai Verna
+;car0003;Audi A4;The premium sedan from Audi
