@@ -121,4 +121,9 @@
 		<property name="typeCode" value="Car"/>
 		<property name="interceptor" ref="carRemoveInterceptor"/>
 	</bean>
+	
+	<alias alias="carDao" name="carDaoImpl"/>
+	<bean id="carDaoImpl" class="org.training.dao.impl.CarDaoImpl">
+		<property name="flexibleSearchService" ref="flexibleSearchService"/>
+	</bean>
 </beans>
