@@ -84,4 +84,16 @@
     </bean>
 			
 	<bean id="hpDynamicAttributeHandler" class="org.training.attributehandlers.HpDynamicAttributeHandler"/>
+	
+	
+	<bean id="carInitDefaultsInterceptor" class="org.training.interceptors.CarInitDefaultsInterceptor">
+		<property name="catalogVersionService" ref="catalogVersionService"/>
+		<property name="catalogService" ref="catalogService" />
+	</bean>
+	
+	<bean class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+		<property name="typeCode" value="Car"/>
+		<property name="interceptor" ref="carInitDefaultsInterceptor"/>
+	</bean>
+	
 </beans>
