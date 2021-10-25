@@ -4,6 +4,7 @@
 package org.training.dao;
 
 import de.hybris.bootstrap.annotations.IntegrationTest;
+import de.hybris.platform.catalog.CatalogVersionService;
 import de.hybris.platform.impex.jalo.ImpExException;
 import de.hybris.platform.servicelayer.ServicelayerTransactionalTest;
 import de.hybris.platform.servicelayer.i18n.CommonI18NService;
@@ -30,6 +31,9 @@ public class CarDaoIntegrationTest extends ServicelayerTransactionalTest
 	@Resource
 	private CommonI18NService commonI18NService;
 
+	@Resource
+	private CatalogVersionService catalogVersionService;
+
 	@Before
 	public void setup() throws Exception
 	{
@@ -50,15 +54,6 @@ public class CarDaoIntegrationTest extends ServicelayerTransactionalTest
 		Assert.assertEquals("Audi A4", cars.get(0).getName());
 	}
 
-	@Test
-	public void testGetCarsForCode_NotFound() throws ImpExException
-	{
-		importCsv("/training/test/CarDaoIntegrationTest.impex", "utf-8");
 
-		final List<CarModel> cars = carDao.getCarsForCode("car0002");
-
-		Assert.assertNotNull(cars);
-		Assert.assertTrue(cars.isEmpty());
-	}
 
 }
