@@ -38,7 +38,7 @@ public class CarDaoImpl implements CarDao
 	public CarModel getCarForCode(final String code, final CatalogVersionModel catalogVersion)
 	{
 		final FlexibleSearchQuery fsq = new FlexibleSearchQuery(
-				"SELECT {PK} FROM {Car} WHERE {code}=?carCode AND {catalogVerison}= ?catalogVersion");
+				"SELECT {PK} FROM {Car} WHERE {code}=?carCode AND {catalogVersion}= ?catalogVersion");
 		fsq.addQueryParameter("carCode", code);
 		fsq.addQueryParameter("catalogVersion", catalogVersion);
 

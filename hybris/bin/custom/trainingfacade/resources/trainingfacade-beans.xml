@@ -8,9 +8,12 @@
 
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
 
-	<bean class="org.training.facade.CarData">
+	<bean class="org.training.facade.ProductData">
 		<property name="id" type="String"/>
 		<property name="name" type="String"/>
+	</bean>
+
+	<bean class="org.training.facade.CarData" extends="org.training.facade.ProductData">
 		<property name="chasisNumber" type="String"/>
 		<property name="engineNumber" type="String"/>
 	</bean>

@@ -82,5 +82,33 @@
         <property name="mediaService" ref="mediaService"/>
         <property name="flexibleSearchService" ref="flexibleSearchService"/>
     </bean>
+    
+    <bean id="productPopulator" class="org.training.facade.converters.ProductPopulator"/>
+        
+    <alias name="defaultCarConverter" alias="carConverter"/>
+    <bean id="defaultCarConverter" parent="abstractPopulatingConverter">
+    	<property name="populators" ref="carPopulatorList"/>
+    	<property name="targetClass" value="org.training.facade.CarData"/>
+    </bean>
 			
+	<alias name="defaultCarPopulatorList" alias="carPopulatorList"/>
+	<bean id="defaultCarPopulatorList" parent="abstractPopulatorList">
+		<property name="populators">
+			<list>
+				<ref bean="productPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="carPopulator" class="org.training.facade.converters.CarPopulator"/>
+	
+	<alias name="customCarPopulatorList" alias="carPopulatorList"/>
+	<bean id="customCarPopulatorList" parent="abstractPopulatorList">
+		<property name="populators">
+			<list>
+				<ref bean="productPopulator"/>
+				<ref bean="carPopulator"/>
+			</list>
+		</property>
+	</bean>
 </beans>
