@@ -78,5 +78,14 @@
 			</attributes>
 		</itemtype>
 		
+		
+		<itemtype code="AssignDefaultMechanicCronJob" extends="CronJob">
+			<attributes>
+				<attribute type="Employee" qualifier="defaultMechanic">
+					<persistence type="property"/>
+				</attribute>
+			</attributes>
+		</itemtype>
+		
 	</itemtypes>
 </items>

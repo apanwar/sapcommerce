@@ -171,6 +171,15 @@ public class CarDaoImpl implements CarDao
 		return searchResults.getResult();
 	}
 
+	@Override
+	public List<CarModel> getCarsWithoutDefaultMechanic()
+	{
+		final FlexibleSearchQuery fsq = new FlexibleSearchQuery("SELECT {PK} FROM {Car} WHERE {defaultMechanic} IS null");
+		final SearchResult<CarModel> searchResults = flexibleSearchService.search(fsq);
+
+		return searchResults.getResult();
+	}
+
 	/**
 	 * @param flexibleSearchService
 	 *           the flexibleSearchService to set
@@ -179,6 +188,8 @@ public class CarDaoImpl implements CarDao
 	{
 		this.flexibleSearchService = flexibleSearchService;
 	}
+
+
 
 
 }

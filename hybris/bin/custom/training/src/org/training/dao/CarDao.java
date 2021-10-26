@@ -37,4 +37,9 @@ public interface CarDao
 
 	List<CarModel> getCarsForModelAndFuelType(String model, FuelType fuelType, CatalogVersionModel catalogVersion);
 
+	/**
+	 *
+	 */
+	List<CarModel> getCarsWithoutDefaultMechanic();
+
 }

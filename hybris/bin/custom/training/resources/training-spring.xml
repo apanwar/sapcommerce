@@ -126,4 +126,15 @@
 	<bean id="carDaoImpl" class="org.training.dao.impl.CarDaoImpl">
 		<property name="flexibleSearchService" ref="flexibleSearchService"/>
 	</bean>
+	
+	
+	<bean id="assignDefaultMechanicServiceLayerJob" class="org.training.cronjobs.AssignDefaultMechanicServiceLayerJob" parent="abstractJobPerformable">
+		<property name="carDao" ref="carDao"/>
+		<property name="defaultMechanicUid" value="defaultMechanic"/>
+		<property name="userService" ref="userService"/>
+	</bean>
+	
+	<bean id="assignDefaultMechanicJob" class="org.training.cronjobs.AssignDefaultMechanicJob" parent="abstractJobPerformable">
+		<property name="carDao" ref="carDao"/>
+	</bean>
 </beans>
