@@ -2,12 +2,224 @@
 <!--
  Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved
 -->
-<config xmlns="http://www.hybris.com/cockpit/config">
+<config xmlns="http://www.hybris.com/cockpit/config"
+xmlns:yc="http://www.hybris.com/cockpitng/config/common"
+		xmlns:y="http://www.hybris.com/cockpit/config/hybris"
+		xmlns:wz="http://www.hybris.com/cockpitng/config/wizard-config"
+		xmlns:cb="http://www.hybris.com/cockpitng/config/collectionbrowser"
+		xmlns:cv="http://www.hybris.com/cockpitng/component/compareview"
+		xmlns:lv="http://www.hybris.com/cockpitng/component/listView"
+		xmlns:ea="http://www.hybris.com/cockpitng/component/editorArea"
+		xmlns:et="http://www.hybris.com/cockpitng/config/explorertree"
+		xmlns:ss="http://www.hybris.com/cockpitng/config/simplesearch"
+		xmlns:as="http://www.hybris.com/cockpitng/config/advancedsearch"
+		xmlns:df="http://www.hybris.com/cockpitng/component/dynamicForms"
+		xmlns:dsb="http://www.hybris.com/cockpitng/config/dashboard"
+		xmlns:na="http://www.hybris.com/cockpitng/config/notifications"
+		xmlns:gv="http://www.hybris.com/cockpitng/component/gridView">
+		
+		
+		
+	<context type="Car" component="editor-area" parent="Product" merge-by="type">
+		<ea:editorArea name="">
+			<ea:tab name="hmc.tab.training.car" position="1">
+				<ea:section name="hmc.section.car.details">
+					<ea:attribute qualifier="chasisNumber"/>
+					<ea:attribute qualifier="defaultMechanic"/>
+					<ea:attribute qualifier="engineNumber"/>
+					<ea:attribute qualifier="mechanics"/>
+					<ea:attribute qualifier="model"/>
+				</ea:section>
+				
+				<ea:section name="hmc.section.car.power.details">
+					<ea:attribute qualifier="fuelType"/>
+					<ea:attribute qualifier="hp"/>
+					<ea:attribute qualifier="kw"/>
+				</ea:section>
+			</ea:tab>
+		</ea:editorArea>
+	</context>
 
-	<!-- trainingbackoffice UI configuration should be provided here -->
-
-	<!--<context component="component-code" module="trainingbackoffice">-->
-		<!--Please check documentation for code snippets for specific components-->
-	<!--</context>-->
+	<context merge-by="type" parent="Product" type="Car" component="advanced-search">
+		<as:advanced-search>
+			<as:field-list>
+				<as:field name="chasisNumber" selected="true" operator="equal"/>
+				<as:field name="engineNumber" selected="true" operator="equal"/>
+				<as:field name="fuelType" selected="true" operator="equal"/>
+				<as:field name="model" selected="false" operator="equal"/>
+				<as:field name="kw" selected="false" operator="equal"/>
+			</as:field-list>
+		</as:advanced-search>
+	</context>
+	
+		<context component="create-wizard" type="Car">
+		<wz:flow id="ProductWizard" title="create.title(ctx.TYPE_CODE)">
+			<wz:handler handlerId="customDoneHandler" handlerBean="productMediaComposedFlowActionHandler">
+				<wz:additionalParams key="handler:savePicture" value="mediaReferenceCreateHandler"/>
+				<wz:additionalParams key="savePicture:mediaProperty" value="newProduct.picture"/>
+				<wz:additionalParams key="savePicture:saveParentObject" value="true"/>
+				<wz:additionalParams key="savePicture:mediaContentProperty" value="createProductPicture"/>
+				<wz:additionalParams key="savePicture:mediaCodeExpression" value="newProduct.code+'_picture'"/>
+				<wz:additionalParams key="savePicture:catalogVersionProperty" value="newProduct.catalogVersion"/>
+				<wz:additionalParams key="savePicture:throwExceptionsOnError" value="true"/>
+				<wz:additionalParams key="handler:saveThumbnail" value="mediaReferenceCreateHandler"/>
+				<wz:additionalParams key="saveThumbnail:mediaProperty" value="newProduct.thumbnail"/>
+				<wz:additionalParams key="saveThumbnail:saveParentObject" value="true"/>
+				<wz:additionalParams key="saveThumbnail:mediaContentProperty" value="createProductThumbnail"/>
+				<wz:additionalParams key="saveThumbnail:mediaCodeExpression" value="newProduct.code+'_thumbnail'"/>
+				<wz:additionalParams key="saveThumbnail:catalogVersionProperty" value="newProduct.catalogVersion"/>
+				<wz:additionalParams key="saveThumbnail:throwExceptionsOnError" value="true"/>
+				<wz:additionalParams key="handler:saveLogos" value="multiMediaReferenceCreateHandler"/>
+				<wz:additionalParams key="saveLogos:mediaProperty" value="newProduct.logo"/>
+				<wz:additionalParams key="saveLogos:saveParentObject" value="true"/>
+				<wz:additionalParams key="saveLogos:mediaContentProperty" value="createProductLogos"/>
+				<wz:additionalParams key="saveLogos:mediaCodeExpression" value="newProduct.code+'_logo#'"/>
+				<wz:additionalParams key="saveLogos:catalogVersionProperty" value="newProduct.catalogVersion"/>
+				<wz:additionalParams key="saveLogos:throwExceptionsOnError" value="true"/>
+				<wz:additionalParams key="saveLogos:append" value="true"/>
+			</wz:handler>
+			<wz:prepare id="productPrepare" handler="productWizardCatalogVersionPopulator">
+				<wz:initialize property="newProduct" type="ctx.TYPE_CODE"/>
+				<wz:assign property="newProduct.code" value="ctx.code"/>
+				<wz:assign property="newProduct.code" value="ctx?.actionContext?.code"/>
+                <wz:assign property="newProduct.supercategories" value="T(com.hybris.cockpitng.util.ListJoiner).join(newProduct.supercategories, ctx?.actionContext?.supercategories)"/>
+			</wz:prepare>
+			<wz:step id="step1" label="create.product.essential.label" sublabel="create.product.essential.sublabel">
+				<wz:content id="step1.content">
+					<wz:property-list root="newProduct">
+						<wz:property qualifier="code" type="java.lang.String"/>
+						<wz:property qualifier="approvalStatus"/>
+						<wz:property qualifier="catalogVersion">
+							<wz:editor-parameter>
+								<wz:name>availableValuesProvider</wz:name>
+								<wz:value>writableCatalogVersionSearchFacade</wz:value>
+							</wz:editor-parameter>
+						</wz:property>
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step1.navigation">
+					<wz:cancel>
+						<wz:revert property="newProduct.picture"/>
+						<wz:revert property="newProduct.thumbnail"/>
+						<wz:revert property="newProduct.logo"/>
+						<wz:revert property="newProduct"/>
+					</wz:cancel>
+					<wz:next visible="!#empty(newProduct.code) and newProduct.catalogVersion != null"/>
+                    <wz:custom visible="!#empty(newProduct.code) and newProduct.catalogVersion != null" label="com.hybris.cockpitng.widgets.configurableflow.flow.done"
+							   composedHandler="customDoneHandler">
+						<wz:save property="newProduct"/>
+					</wz:custom>
+				</wz:navigation>
+			</wz:step>
+			<wz:step id="step2" label="create.product.descriptions.label"
+					 sublabel="create.product.descriptions.sublabel">
+				<wz:content id="step2.content">
+					<wz:property-list root="newProduct">
+						<wz:property qualifier="name" type="java.lang.String"/>
+						<wz:property editor="com.hybris.cockpitng.editor.localized(com.hybris.cockpitng.editor.wysiwyg)"
+									 qualifier="description" type="java.lang.String"/>
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step2.navigation">
+					<wz:cancel>
+						<wz:revert property="newProduct.picture"/>
+						<wz:revert property="newProduct.thumbnail"/>
+						<wz:revert property="newProduct.logo"/>
+						<wz:revert property="newProduct"/>
+					</wz:cancel>
+					<wz:back/>
+					<wz:next/>
+                    <wz:custom label="com.hybris.cockpitng.widgets.configurableflow.flow.done" composedHandler="customDoneHandler">
+						<wz:save property="newProduct"/>
+					</wz:custom>
+				</wz:navigation>
+			</wz:step>
+			<wz:step id="step3" label="create.product.categories.label" sublabel="create.product.categories.sublabel">
+				<wz:info label="create.product.categories.info.label" position="top"/>
+				<wz:content id="step3.content">
+					<wz:property qualifier="newProduct.supercategories"/>
+				</wz:content>
+				<wz:navigation id="step3.navigation">
+					<wz:cancel>
+						<wz:revert property="newProduct.picture"/>
+						<wz:revert property="newProduct.thumbnail"/>
+						<wz:revert property="newProduct.logo"/>
+						<wz:revert property="newProduct"/>
+					</wz:cancel>
+					<wz:back/>
+					<wz:next/>
+                    <wz:custom label="com.hybris.cockpitng.widgets.configurableflow.flow.done" composedHandler="customDoneHandler">
+						<wz:save property="newProduct"/>
+					</wz:custom>
+				</wz:navigation>
+			</wz:step>
+			<wz:step id="step4" label="create.product.media.label" sublabel="create.product.media.sublabel">
+				<wz:info label="create.product.media.info.label" position="top"/>
+				<wz:content id="step4.content">
+					<wz:property qualifier="newProduct.picture" validate="false"/>
+                    <wz:property qualifier="createProductPicture" type="com.hybris.cockpitng.editor.defaultfileupload.FileUploadResult" editor="com.hybris.cockpitng.editor.dndfileupload" validate="false">
+						<wz:editor-parameter>
+							<wz:name>accept</wz:name>
+							<wz:value>image/*</wz:value>
+						</wz:editor-parameter>
+						<wz:editor-parameter>
+							<wz:name>singleLineMode</wz:name>
+							<wz:value>true</wz:value>
+						</wz:editor-parameter>
+					</wz:property>
+					<wz:property qualifier="newProduct.thumbnail" validate="false"/>
+                    <wz:property qualifier="createProductThumbnail" type="com.hybris.cockpitng.editor.defaultfileupload.FileUploadResult" editor="com.hybris.cockpitng.editor.dndfileupload"  validate="false">
+						<wz:editor-parameter>
+							<wz:name>accept</wz:name>
+							<wz:value>image/*</wz:value>
+						</wz:editor-parameter>
+						<wz:editor-parameter>
+							<wz:name>singleLineMode</wz:name>
+							<wz:value>true</wz:value>
+						</wz:editor-parameter>
+					</wz:property>
+					<wz:property qualifier="newProduct.logo" validate="false"/>
+                    <wz:property qualifier="createProductLogos" type="java.util.Collection" editor="com.hybris.cockpitng.editor.multidndfileupload" validate="false">
+						<wz:editor-parameter>
+							<wz:name>accept</wz:name>
+							<wz:value>image/*</wz:value>
+						</wz:editor-parameter>
+						<wz:editor-parameter>
+							<wz:name>singleLineMode</wz:name>
+							<wz:value>true</wz:value>
+						</wz:editor-parameter>
+					</wz:property>
+				</wz:content>
+				<wz:navigation id="step4.navigation">
+					<wz:cancel>
+						<wz:revert property="newProduct.picture"/>
+						<wz:revert property="newProduct.thumbnail"/>
+						<wz:revert property="newProduct.logo"/>
+						<wz:revert property="newProduct"/>
+					</wz:cancel>
+					<wz:back/>
+					<wz:next/>
+				</wz:navigation>
+				</wz:step>
+				<wz:step id="step5" label="create.car.info.label" sublabel="create.car.info.sublabel">
+				<wz:info label="create.car.info.label" position="top"/>
+				<wz:content id="step5.content">
+					<wz:property qualifier="newProduct.chasisNumber" validate="true"/>
+                    <wz:property qualifier="newProduct.model" validate="true"/>
+					<wz:property qualifier="newProduct.engineNumber" validate="true"/>
+					<wz:property qualifier="newProduct.kw" validate="true"/>
+				</wz:content>
+				<wz:navigation id="step5.navigation">
+					<wz:cancel>
+						<wz:revert property="newProduct"/>
+					</wz:cancel>
+					<wz:back/>
+                    <wz:custom label="com.hybris.cockpitng.widgets.configurableflow.flow.done" composedHandler="customDoneHandler">
+						<wz:save property="newProduct"/>
+					</wz:custom>
+				</wz:navigation>
+			</wz:step>
+		</wz:flow>
+	</context>
 
 </config>
