@@ -1,0 +1,6 @@
+INSERT_UPDATE MinConstraint;id[unique=true];active;qualifier;type(code);target;value;severity(code)
+;kwMinConstraint;true;kw;Car;org.training.model.CarModel;501;ERROR
+;carModelMinConstraint;true;model;Car;org.training.model.CarModel;2013;ERROR
+
+INSERT_UPDATE NotNullConstraint;id[unique=true];active;qualifier;type(code);target;severity(code)
+;carModelNotNullConstraint;true;model;Car;org.training.model.CarModel;ERROR

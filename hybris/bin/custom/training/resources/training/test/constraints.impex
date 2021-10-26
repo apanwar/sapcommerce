@@ -1,0 +1,16 @@
+INSERT_UPDATE Catalog;id[unique=true];name[lang=en]
+;trainingCatalog;Training Catalog
+
+INSERT_UPDATE CatalogVersion;catalog(id)[unique=true];version[unique=true]
+;trainingCatalog;Staged
+
+INSERT_UPDATE Unit;code[unique=true];name[lang=en]
+;pieces;Pieces
+
+
+INSERT_UPDATE MinConstraint;id[unique=true];active;qualifier;type(code);target;value;severity(code)
+;kwMinConstraint;true;kw;Car;org.training.model.CarModel;501;ERROR
+;carModelMinConstraint;true;model;Car;org.training.model.CarModel;2013;ERROR
+
+INSERT_UPDATE NotNullConstraint;id[unique=true];active;qualifier;type(code);target;severity(code)
+;carModelNotNullConstraint;true;model;Car;org.training.model.CarModel;ERROR
