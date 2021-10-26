@@ -63,7 +63,9 @@ public class AssignDefaultMechanicCronJobTest extends ServicelayerTransactionalT
 		car.setKw(1000);
 		car.setModel(2013);
 
+
 		modelService.save(car);
+
 
 		cronJobService.performCronJob(cronJobService.getCronJob("assignDefaultMechanicCronJob"), true);
 
