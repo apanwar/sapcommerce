@@ -1,6 +1,8 @@
 installer
 hybris-sbg
-config
+
+hybris/config/licence
+
 licenses
 README
 SIGNATURE.SMF
