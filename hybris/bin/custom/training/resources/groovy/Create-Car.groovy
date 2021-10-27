@@ -10,5 +10,5 @@ car.setEngineNumber("NJK654646");
 car.setKw(2000);
 car.setModel(2021);
 car.setFuelType(FuelType.GASOLINE);
-
+Car.setUnit(unitService.getUnitForCode("pieces"));
 modelService.save(car);
