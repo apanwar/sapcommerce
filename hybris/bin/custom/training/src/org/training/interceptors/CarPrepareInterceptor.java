@@ -21,14 +21,14 @@ public class CarPrepareInterceptor implements PrepareInterceptor<CarModel>
 	public void onPrepare(final CarModel car, final InterceptorContext context) throws InterceptorException
 	{
 
-		if (null == car.getName() || null == car.getDescription()
-				|| (StringUtils.equals(car.getCode(), car.getName()) && StringUtils.equals(car.getCode(), car.getDescription())))
+		if ((car.getApprovalStatus() != ArticleApprovalStatus.UNAPPROVED) && (null == car.getName() || null == car.getDescription()
+				|| (StringUtils.equals(car.getCode(), car.getName()) && StringUtils.equals(car.getCode(), car.getDescription()))))
 		{
-			car.setApprovalStatus(ArticleApprovalStatus.CHECK);
+			car.setApprovalStatus(ArticleApprovalStatus.UNAPPROVED);
 		}
 		else
 		{
-			car.setApprovalStatus(ArticleApprovalStatus.APPROVED);
+			car.setApprovalStatus(ArticleApprovalStatus.CHECK);
 		}
 
 	}
