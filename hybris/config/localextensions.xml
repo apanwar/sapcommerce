@@ -11,8 +11,10 @@
 										
 		
 		<extension name="yempty" />
+		<extension name="ybackoffice" />
 		<extension name="training"/>
 		<extension name="trainingfacade"/>
+		<extension name="trainingbackoffice" />
 		
 		<extension name="backoffice"/>
 		<extension name="platformbackoffice"/>
