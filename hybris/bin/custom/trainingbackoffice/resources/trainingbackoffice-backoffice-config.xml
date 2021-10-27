@@ -208,6 +208,7 @@ xmlns:yc="http://www.hybris.com/cockpitng/config/common"
                     <wz:property qualifier="newProduct.model" validate="true"/>
 					<wz:property qualifier="newProduct.engineNumber" validate="true"/>
 					<wz:property qualifier="newProduct.kw" validate="true"/>
+					<wz:property qualifier="newProduct.unit" validate="true"/>
 				</wz:content>
 				<wz:navigation id="step5.navigation">
 					<wz:cancel>
