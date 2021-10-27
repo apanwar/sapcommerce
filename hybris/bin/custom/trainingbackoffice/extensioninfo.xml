@@ -13,7 +13,7 @@
         
                 		
         
-        <coremodule generated="true" manager="org.training.jalo.TrainingbackofficeManager" packageroot="org.training"/>
+        <coremodule generated="true" manager="org.training.backoffice.jalo.TrainingbackofficeManager" packageroot="org.training.backoffice"/>
                 		
         
         <meta key="backoffice-module" value="true"/>
