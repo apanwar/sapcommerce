@@ -45,7 +45,7 @@ public class CarPrepareInterceptorIntegrationTest extends ServicelayerTransactio
 
 		final CarModel car = (CarModel) productService.getProductForCode("car0004");
 
-		Assert.assertEquals(ArticleApprovalStatus.CHECK, car.getApprovalStatus());
+		Assert.assertEquals(ArticleApprovalStatus.UNAPPROVED, car.getApprovalStatus());
 	}
 
 	@Test
@@ -56,7 +56,7 @@ public class CarPrepareInterceptorIntegrationTest extends ServicelayerTransactio
 
 		final CarModel car = (CarModel) productService.getProductForCode("car0002");
 
-		Assert.assertEquals(ArticleApprovalStatus.CHECK, car.getApprovalStatus());
+		Assert.assertEquals(ArticleApprovalStatus.UNAPPROVED, car.getApprovalStatus());
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public class CarPrepareInterceptorIntegrationTest extends ServicelayerTransactio
 
 		final CarModel car = (CarModel) productService.getProductForCode("car0003");
 
-		Assert.assertEquals(ArticleApprovalStatus.APPROVED, car.getApprovalStatus());
+		Assert.assertEquals(ArticleApprovalStatus.CHECK, car.getApprovalStatus());
 	}
 
 }

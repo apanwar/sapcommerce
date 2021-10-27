@@ -48,7 +48,7 @@ public class CarPrepareInterceptorTest
 		Mockito.when(car.getDescription()).thenReturn("car0001");
 		carPrepareInterceptor.onPrepare(car, context);
 
-		Mockito.verify(car, atLeastOnce()).setApprovalStatus(ArticleApprovalStatus.CHECK);
+		Mockito.verify(car, atLeastOnce()).setApprovalStatus(ArticleApprovalStatus.UNAPPROVED);
 	}
 
 	@Test
@@ -59,7 +59,7 @@ public class CarPrepareInterceptorTest
 		Mockito.when(car.getDescription()).thenReturn("The entry level sedan from Honda");
 		carPrepareInterceptor.onPrepare(car, context);
 
-		Mockito.verify(car, atLeastOnce()).setApprovalStatus(ArticleApprovalStatus.APPROVED);
+		Mockito.verify(car, atLeastOnce()).setApprovalStatus(ArticleApprovalStatus.CHECK);
 	}
 
 }
