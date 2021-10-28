@@ -1,2 +1,0 @@
-"#% impex.setTargetFile(""Car.impex"");"
-INSERT_UPDATE Car;code[unique=true];catalogVersion(catalog(id),version)[unique=true]
