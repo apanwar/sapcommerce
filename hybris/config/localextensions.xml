@@ -169,5 +169,26 @@
     <extension name='permissionswebservices' />
     <extension name='webservicescommons' />
     <extension name='ywebservices' />
+    <extension name='ysapproductconfigaddon'/>
+	<extension name='xyformsstorefrontcommons'/>
+	<extension name='xyformssamples'/>
+	<extension name='timedaccesspromotionenginesamplesaddon'/>
+	<extension name='timedaccesspromotionengineaddon'/>
+	<extension name='textfieldconfiguratortemplateaddon'/>
+	<extension name='stocknotificationaddon'/>
+	<extension name='selectivecartsplitlistaddon'/>
+	<extension name='profiletagaddon'/>
+	<extension name='personalizationyprofilesampledataaddon'/>
+	<extension name='notificationaddon'/>
+	<extension name='multicountrysampledataaddon'/>
+	<extension name='merchandisingstorefrontsampledataaddon'/>
+	<extension name='merchandisingaddon'/>
+	<extension name='eventtrackingwsaddon'/>
+	<extension name='customerinterestsaddon'/>
+	<extension name='consignmenttrackingaddon'/>
+	<extension name='configurablebundleaddon'/>
+	<extension name='assistedserviceyprofileaddon'/>
+	<extension name='assistedservicecustomerinterestsaddon'/>
+	    
   </extensions>
 </hybrisconfig>
