@@ -3,6 +3,8 @@ hybris-sbg
 
 hybris/config/licence
 
+local.properties
+
 licenses
 README
 SIGNATURE.SMF
