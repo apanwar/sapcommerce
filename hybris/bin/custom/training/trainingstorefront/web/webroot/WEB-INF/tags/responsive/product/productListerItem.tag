@@ -46,7 +46,9 @@
 			<div class="product__listing--description">${ycommerce:sanitizeHTML(product.summary)}</div>
 		</c:if>
 
-
+		<c:if test="${not empty product.countryOfOrigin}">
+			<div class="product__listing--description"><strong>Country of Origin: </strong>${ycommerce:sanitizeHTML(product.countryOfOrigin)}</div>
+		</c:if>
 
 		<c:set var="product" value="${product}" scope="request"/>
 		<c:set var="addToCartText" value="${addToCartText}" scope="request"/>

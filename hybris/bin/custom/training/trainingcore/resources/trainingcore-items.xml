@@ -30,7 +30,13 @@
     <itemtypes>
 
         <!-- Add your item definitions here -->
-
+		<itemtype code="Product" autocreate="false" generate="false">
+        	<attributes>
+        		<attribute type="Country" qualifier="countryOfOrigin">
+        			<persistence type="property"/>
+        		</attribute>
+        	</attributes>
+        </itemtype>
 
         <!-- TypeGroups are for structure of this file only -->
 
@@ -103,6 +109,7 @@
                 </attributes>
             </itemtype>
         </typegroup>
+        
 
     </itemtypes>
 </items>
