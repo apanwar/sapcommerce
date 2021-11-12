@@ -29,6 +29,9 @@
 						<c:if test="${not empty product.countryOfOrigin}">
 							<div><strong>Country of origin:</strong> ${ycommerce:sanitizeHTML(product.countryOfOrigin)}</div>
 						</c:if>
+						<c:if test="${not empty product.contactlessdelivery}">
+							<div><strong>Contactless Delivery</strong> ${ycommerce:sanitizeHTML(product.contactlessdelivery)}</div>
+						</c:if>
 					</div>
 				</div>
 

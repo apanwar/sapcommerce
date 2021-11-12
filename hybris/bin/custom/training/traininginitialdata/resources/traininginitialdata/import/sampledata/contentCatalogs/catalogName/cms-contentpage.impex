@@ -1,0 +1,18 @@
+$contentCatalog=electronicsContentCatalog
+$contentCatalogName=Electronics Content Catalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged] 
+
+INSERT_UPDATE ContentPage ; $contentCV[unique=true] ; uid[unique=true]; name; masterTemplate(uid,$contentCV) ; label; defaultPage[default='true'] ; approvalStatus(code)[default='approved'] ; homepage[default='false']
+;; contactLessDelivery ; Contact Less Delivery ; ContentPage1Template; /contactLessDelivery 
+
+INSERT_UPDATE ContentSlot ; $contentCV[unique=true] ; uid[unique=true]; name; active ; cmsComponents(&componentRef);  ;  ;  
+;; Section2BSlot-contactLessDelivery ; Section2B Slot for Contact Less Delivery Page ; true   ; contactLessDeliveryTextParagraph ;  ;  ; 
+  
+INSERT_UPDATE CMSParagraphComponent ; $contentCV[unique=true] ; uid[unique=true]; name; &componentRef;  ;  ;  ;  
+;; contactLessDeliveryTextParagraph ; Contact Less Delivery Text Paragraph ; contactLessDeliveryTextParagraph ;  ;  ;  ;  
+ 
+INSERT_UPDATE ContentSlotForPage ; $contentCV[unique=true] ; uid[unique=true]; position[unique=true] ; page(uid,$contentCV)[unique=true] ; contentSlot(uid,$contentCV)[unique=true]    ;  ;  ;  
+;; Section2B-contactLessDelivery ; Section2B; contactLessDelivery; Section2BSlot-contactLessDelivery ;  ;  ;
+   
+UPDATE CMSParagraphComponent ; $contentCV[unique=true] ; uid[unique=true] ; content[lang=en];                                                  
+;; contactLessDeliveryTextParagraph ; "<h1 style=""color: #5e9ca0;"">Contact Less Delivery Available</h1><h2 style=""color: #2e6c80;"">We are offering contact less Delivery</h2><p>&nbsp</p><p>&nbsp</p><p>1) Fedex = 15$ (Service=24*7)<br />2) UPS= 10$ ( Service= Monday-Saturday 9am-5pm)</p><p>&nbsp</p><p><strong>&nbsp</strong></p>"

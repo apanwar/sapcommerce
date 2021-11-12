@@ -35,6 +35,9 @@
         		<attribute type="Country" qualifier="countryOfOrigin">
         			<persistence type="property"/>
         		</attribute>
+        		<attribute type="java.lang.Integer" qualifier="contactlessdelivery">
+        		<persistence type="property"/>
+        		</attribute>
         	</attributes>
         </itemtype>
 
