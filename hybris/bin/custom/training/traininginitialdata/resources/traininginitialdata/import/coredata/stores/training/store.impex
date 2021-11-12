@@ -5,13 +5,13 @@
 # Create the BaseStore
 #
 
-$productCatalog=__PRODUCT_CATALOG_NAME__
-$classificationCatalog=__CLASSIFICATION_CATALOG_NAME__
-$currencies=JPY,USD
+$productCatalog=trainingProductCatalog
+$classificationCatalog=TrainingClassification
+$currencies=INR
 $net=false
-$storeUid=__STORE_UID__
-$defaultCurrency=USD
-$languages=ja,en,de,zh
+$storeUid=training
+$defaultCurrency=INR
+$languages=en
 $defaultLanguage=en
 $unitedKingdom=GB,GG,IM,JE
 $europeNotUK=AD,AL,AT,BA,BE,BG,BY,CH,CY,CZ,DE,DK,EE,ES,FI,FO,FR,GI,GL,GR,HR,HU,IE,IS,IT,LI,LT,LU,LV,MC,MD,ME,MK,MT,NL,NO,PL,PT,RO,RS,RU,SE,SI,SK,SM,TR,UA,VA
@@ -22,7 +22,7 @@ $orderProcessCode=order-process
 $pickupInStoreMode=BUY_AND_COLLECT
 $customerAllowedToIgnoreSuggestions=true
 $paymentProvider=Mockup
-$promoGrp=__DEFAULT_PROMO_GRP__
+$promoGrp=training
 $checkoutFlowGroup=defaultCheckoutGroup
 
 INSERT_UPDATE PromotionGroup;Identifier[unique=true];

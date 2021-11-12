@@ -1,13 +1,85 @@
 # -----------------------------------------------------------------------
 # Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
 # -----------------------------------------------------------------------
-# ImpEx for Importing CMS Content
-# Macros / Replacement Parameter definitions
-$contentCatalog=__CONTENT_CATALOG_NAME__
+#
+# Import the CMS content for the site
+#
+$contentCatalog=trainingContentCatalog
 $contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
 
-INSERT_UPDATE SearchBoxComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
+# Import config properties into impex macros
+UPDATE GenericItem[processor=de.hybris.platform.commerceservices.impex.impl.ConfigPropertyImportProcessor] ; pk[unique=true]
+$jarResourceCms=$config-jarResourceCmsValue                                                                
 
-INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(&componentRef)
+# Create PageTemplates                                                                                     
+# These define the layout for pages                                                                        
+# "FrontendTemplateName" is used to define the JSP that should be used to render the page for pages with multiple possible layouts.
+# "RestrictedPageTypes" is used to restrict templates to page types                                        
+INSERT_UPDATE PageTemplate ; $contentCV[unique=true] ; uid[unique=true] ; name             ; frontendTemplateName  ; restrictedPageTypes(code) ; active[default=true]
+                           ;                         ; MyPageTemplate   ; My Page Template ; custom/myPageTemplate ; ContentPage               
 
-INSERT_UPDATE FooterComponent;$contentCV[unique=true];uid[unique=true];wrapAfter;showLanguageCurrency
+
+INSERT_UPDATE ContentSlotName ; name[unique=true] ; template(uid,$contentCV)[unique=true][default='MyPageTemplate'] ; validComponentTypes(code) ; compTypeGroup(code)
+                              ; SiteLogo          ;                                                                 ;                           ; logo               
+                              ; TopHeaderSlot     ;                                                                 ;                           ; wide               
+                              ; HeaderLinks       ;                                                                 ;                           ; headerlinks        
+                              ; SearchBox         ;                                                                 ;                           ; searchbox          
+                              ; MiniCart          ;                                                                 ;                           ; minicart           
+                              ; BottomHeaderSlot  ;                                                                 ;                           ; wide               
+                              ; Footer            ;                                                                 ;                           ; footer             
+                              ; NavigationBar     ;                                                                 ;                           ; navigation         
+                              ; Section1          ;                                                                 ;                           ;                    
+                              ; Section2A         ;                                                                 ;                           ;                    
+                              ; Section2B         ;                                                                 ;                           ;                    
+                              ; Section2C         ;                                                                 ;                           ;                    
+                              ; Sectin3           ;                                                                 ;                           ;                    
+                              ; Section4A         ;                                                                 ;                           ;                    
+                              ; Section4B         ;                                                                 ;                           ;                    
+
+INSERT_UPDATE ContentSlot ; $contentCV[unique=true] ; uid[unique=true]        ; name ; active
+                          ; Section1ContentSlot     ; Section 1 Content Slot  ; true 
+                          ; Section2AContentSlot    ; Section 2A Content Slot ; true 
+                          ; Section2BContentSlot    ; Section 2B Content Slot ; true 
+                          ; Section2CContentSlot    ; Section 2C Content Slot ; true 
+                          ; Section3ContentSlot     ; Section 3 Content Slot  ; true 
+                          ; Section4AContentSlot    ; Section 4A Content Slot ; true 
+                          ; Section4BContentSlot    ; Section 4B Content Slot ; true 
+
+
+INSERT_UPDATE ContentSlotForTemplate ; $contentCV[unique=true] ; uid[unique=true]                  ; position[unique=true] ; pageTemplate(uid,$contentCV)[unique=true][default='MyPageTemplate'] ; contentSlot(uid,$contentCV)[unique=true] ; allowOverwrite
+                                     ;                         ; SiteLogoSlotForMyPageTemplate     ; SiteLogo              ;                                                                     ; SiteLogoSlot                             ; true          
+                                     ;                         ; TopHeaderSlotForMyPageTemplate    ; TopHeaderSlot         ;                                                                     ; TopHeaderSlot                            ; true          
+                                     ;                         ; HeaderLinksForMyPageTemplate      ; HeaderLinks           ;                                                                     ; HeaderLinksSlot                          ; true          
+                                     ;                         ; SearchBoxForMyPageTemplate        ; SearchBox             
+                                     ;                         ; MiniCartForMyPageTemplate         ; MiniCart              
+                                     ;                         ; BottomHeaderSlotForMyPageTemplate ; BottomHeaderSlot      
+                                     ;                         ; FooterForMyPageTemplate           ; Footer                
+                                     ;                         ; NavigationBarForMyPageTemplate    ; NavigationBar         
+
+INSERT_UPDATE ContentPage ; $contentCV[unique=true] ; uid[unique=true] ; name    ; masterTemplate(uid,$contentCV) ; label  ; defaultPage[default='true'] ; approvalStatus(code)[default='approved'] ; homepage[default='false']
+                          ;                         ; my-page          ; My Page ; MyPageTemplate                 ; my-page
+
+INSERT_UPDATE ContentSlotForPage ; $contentCV[unique=true] ; uid[unique=true]   ; position[unique=true] ; page(uid,$contentCV)[unique=true][default='my-page'] ; contentSlot(uid,$contentCV)[unique=true]
+                                 ;                         ; Section1ForMypage  ; Section1              ;                                                      ; Section1ContentSlot                     
+                                 ;                         ; Section2AForMypage ; Section2A             ;                                                      ; Section2AContentSlot                    
+                                 ;                         ; Section2BForMypage ; Section2B             ;                                                      ; Section2BContentSlot                    
+                                 ;                         ; Section2CForMypage ; Section2C             ;                                                      ; Section2CContentSlot                    
+                                 ;                         ; Sectin3ForMypage   ; Section3              ;                                                      ; Section3ContentSlot                     
+                                 ;                         ; Section4AForMypage ; Section4A             ;                                                      ; Section4AContentSlot                    
+                                 ;                         ; Section4BForMypage ; Section4B             ;                                                      ; Section4BContentSlot                    
+
+INSERT_UPDATE CMSLinkComponent ; $contentCV[unique=true] ; uid[unique=true] ; name         ; url      ; &linkRef     ; &componentRef ; target(code)[default='sameWindow']
+                               ;                         ; my-page-link     ; My Page Link ; /my-page ; my-page-link ; my-page-link  ;                                   ;  
+
+# CMS Paragraph Component (Contact information)
+INSERT_UPDATE CMSParagraphComponent ; $contentCV[unique=true] ; uid[unique=true] ; name                ; &componentRef
+                                    ;                         ; ContactInfo      ; Contact information ; ContactInfo  
+
+UPDATE ContentSlot ; $contentCV[unique=true] ; uid[unique=true]     ; cmsComponents(uid,$catalogVersion)
+                   ;                         ; Section1ContentSlot  ;                                   
+                   ;                         ; Section2AContentSlot ; ContactInfo,my-page-link          
+                   ;                         ; Section2BContentSlot ;                                   
+                   ;                         ; Section2CContentSlot ;                                   
+                   ;                         ; Section3ContentSlot  ;                                   
+                   ;                         ; Section4AContentSlot ;                                   
+                   ;                         ; Section4BContentSlot ;                                   

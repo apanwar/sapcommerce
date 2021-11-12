@@ -10,3 +10,4 @@ $lang=en
 
 # Create Content Catalog
 UPDATE ContentCatalog;id[unique=true];name[lang=$lang]
+;trainingContentCatalog;Training Content Catalog

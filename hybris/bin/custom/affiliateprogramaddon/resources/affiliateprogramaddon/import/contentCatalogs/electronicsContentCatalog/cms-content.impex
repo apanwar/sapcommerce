@@ -1,0 +1,40 @@
+$contentCatalog = electronicsContentCatalog
+$contentCV = catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]), CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+
+INSERT_UPDATE ContentPage; $contentCV[unique = true]; uid[unique = true]; name                  ; masterTemplate(uid, $contentCV); label; defaultPage[default = 'true']; approvalStatus(code)[default = 'approved']; homepage[default = 'false']
+                         ;                          ; affiliateIncome   ; Affiliate Income Page ; AccountPageTemplate            ; affiliateIncome
+
+
+INSERT_UPDATE ContentSlotName; name[unique = true]; template(uid, $contentCV)[unique = true][default = 'ProductDetailsPageTemplate']
+                             ; AdditionalInformation
+
+INSERT_UPDATE JspIncludeComponent; $contentCV[unique = true]; uid[unique = true]                   ; name                               ; page                                                                                                 ; actions(uid, $contentCV); &componentRef
+                                 ;                          ; ProductDetailsAffiliateLinkComponent ; Product Details Affiliate Link     ; /WEB-INF/views/addons/affiliateprogramaddon/responsive/pages/product/productDetailsAffiliateLink.jsp ;                         ; ProductDetailsAffiliateLinkComponent
+                                 ;                          ; UpdateProfileComponent               ; Update Profile Component           ; /WEB-INF/views/addons/affiliateprogramaddon/responsive/pages/account/accountProfileEditPage.jsp      ;                         ; UpdateProfileComponent
+                                 ;                          ; AccountAffiliateIncomeComponent      ; Account Affiliate Income Component ; /WEB-INF/views/addons/affiliateprogramaddon/responsive/pages/account/accountAffiliateIncomePage.jsp  ;                         ; AccountOrderHistoryComponent
+
+
+INSERT_UPDATE ContentSlot; $contentCV[unique = true]; uid[unique = true]                       ; name                                              ; active; cmsComponents(uid, $contentCV)
+                         ;                          ; AdditionalInformationSlot-ProductDetails ; Additional Information Slot                       ; true  ; ProductDetailsAffiliateLinkComponent
+#                         ;                          ; SideContent-affiliateIncome              ; Side Content Slot for My Account Affiliate Income ; true  ; AccountLeftNavigationComponent
+                         ;                          ; BodyContent-affiliateIncome              ; Body Content Slot for My Account Affiliate Income ; true  ; AccountAffiliateIncomeComponent
+
+INSERT_UPDATE ContentSlotForPage; $contentCV[unique = true]; uid[unique = true]                      ; position[unique = true]; page(uid, $contentCV)[unique = true]; contentSlot(uid, $contentCV)[unique = true]
+                                ;                          ; AdditionalInformationSlotProductDetails ; AdditionalInformation  ; productDetails                      ; AdditionalInformationSlot-ProductDetails
+                                ;                          ; BodyContent-affiliateIncome             ; BodyContent            ; affiliateIncome                     ; BodyContent-affiliateIncome ; ; ;
+
+INSERT_UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]         ; name                          ; url                         ; &linkRef                   ; &componentRef              ; target(code)[default = 'sameWindow']
+                              ;                          ; AccountAffiliateIncomeLink ; Account Affiliate Income Link ; /my-account/affiliateIncome ; AccountAffiliateIncomeLink ; AccountAffiliateIncomeLink ; ; ; ;
+
+INSERT_UPDATE CMSNavigationNode; uid[unique = true] ; $contentCV[unique = true]; links(uid, $contentCV)[mode = append]
+                               ; AccountLeftNavNode ;                          ; AccountAffiliateIncomeLink
+
+INSERT_UPDATE CMSNavigationNode; uid[unique = true]            ; $contentCV[unique = true]; name             ; parent(uid, $contentCV); &nodeRef
+                               ; AccountAffiliateIncomeNavNode ;                          ; Affiliate Income ; MyAccountNavNode       ; AccountAffiliateIncomeNavNode
+
+INSERT_UPDATE CMSNavigationEntry; uid[unique = true]                 ; navigationNode(uid, $contentCV); item(&linkRef)             ; name; $contentCV[unique = true]
+                                ; AccountAffiliateIncomeNavNodeEntry ; AccountAffiliateIncomeNavNode  ; AccountAffiliateIncomeLink ; Affiliate Income Navigation Node Entry
+
+
+
+

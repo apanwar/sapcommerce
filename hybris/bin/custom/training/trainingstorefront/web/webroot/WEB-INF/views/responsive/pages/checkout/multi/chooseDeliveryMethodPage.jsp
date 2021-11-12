@@ -26,6 +26,7 @@
 							<spring:url var="selectDeliveryMethodUrl" value="{contextPath}/checkout/multi/delivery-method/select" htmlEscape="false" >
 								<spring:param name="contextPath" value="${request.contextPath}" />
 							</spring:url>
+							
 							<form id="selectDeliveryMethodForm" action="${fn:escapeXml(selectDeliveryMethodUrl)}" method="get">
 								<div class="form-group">
 									<multi-checkout:deliveryMethodSelector deliveryMethods="${deliveryMethods}" selectedDeliveryMethodId="${cartData.deliveryMode.code}"/>

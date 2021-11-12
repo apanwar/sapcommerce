@@ -1,0 +1,17 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# you can put key/value pairs here.
+# Use Config.getParameter(..) to retrieve the values during runtime.
+
+affiliateprogramaddon.key=value
+
+# Specifies the location of the spring context file added automatically to the global platform application context.
+affiliateprogramaddon.application-context=affiliateprogramaddon-spring.xml
+
+yacceleratorstorefront.additionalWebSpringConfigs.affiliateprogramaddon=classpath:/affiliateprogramaddon/web/spring/affiliateprogramaddon-web-spring.xml
+
+
+
+affiliateprogramaddon.javascript.paths.responsive=/responsive/common/js/affiliateprogramaddon.js
+affiliateprogramaddon.css.paths.responsive=/responsive/common/css/affiliateprogramaddon.css

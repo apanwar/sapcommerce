@@ -198,4 +198,6 @@
 		<property name="list" ref="commerceSearchResultProductConverter"/>
 		<property name="add" ref="productListCountryOfOriginPopulator"/>
 	</bean>
+	
+
 </beans>

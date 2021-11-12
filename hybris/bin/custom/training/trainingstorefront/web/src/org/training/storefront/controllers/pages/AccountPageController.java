@@ -20,12 +20,12 @@ import de.hybris.platform.acceleratorstorefrontcommons.forms.validation.EmailVal
 import de.hybris.platform.acceleratorstorefrontcommons.forms.validation.PasswordValidator;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.validation.ProfileValidator;
 import de.hybris.platform.acceleratorstorefrontcommons.forms.verification.AddressVerificationResultHandler;
-import de.hybris.platform.commercefacades.consent.CustomerConsentDataStrategy;
 import de.hybris.platform.acceleratorstorefrontcommons.util.AddressDataUtil;
 import de.hybris.platform.cms2.exceptions.CMSItemNotFoundException;
 import de.hybris.platform.cms2.model.pages.ContentPageModel;
 import de.hybris.platform.commercefacades.address.AddressVerificationFacade;
 import de.hybris.platform.commercefacades.address.data.AddressVerificationResult;
+import de.hybris.platform.commercefacades.consent.CustomerConsentDataStrategy;
 import de.hybris.platform.commercefacades.customer.CustomerFacade;
 import de.hybris.platform.commercefacades.i18n.I18NFacade;
 import de.hybris.platform.commercefacades.order.CheckoutFacade;
@@ -52,7 +52,6 @@ import de.hybris.platform.servicelayer.exceptions.AmbiguousIdentifierException;
 import de.hybris.platform.servicelayer.exceptions.ModelNotFoundException;
 import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
 import de.hybris.platform.util.Config;
-import org.training.storefront.controllers.ControllerConstants;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -82,6 +81,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.training.affiliateprogramaddon.enums.AffiliationStatus;
+import org.training.storefront.controllers.ControllerConstants;
 
 
 
@@ -93,14 +94,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AccountPageController extends AbstractSearchPageController
 {
 	private static final String TEXT_ACCOUNT_ADDRESS_BOOK = "text.account.addressBook";
-	private static final String BREADCRUMBS_ATTR = "breadcrumbs";
+	protected static final String BREADCRUMBS_ATTR = "breadcrumbs";
 	private static final String IS_DEFAULT_ADDRESS_ATTR = "isDefaultAddress";
 	private static final String COUNTRY_DATA_ATTR = "countryData";
 	private static final String ADDRESS_BOOK_EMPTY_ATTR = "addressBookEmpty";
-	private static final String TITLE_DATA_ATTR = "titleData";
+	protected static final String TITLE_DATA_ATTR = "titleData";
 	private static final String FORM_GLOBAL_ERROR = "form.global.error";
 	private static final String PROFILE_CURRENT_PASSWORD_INVALID = "profile.currentPassword.invalid";
-	private static final String TEXT_ACCOUNT_PROFILE = "text.account.profile";
+	protected static final String TEXT_ACCOUNT_PROFILE = "text.account.profile";
 	private static final String ADDRESS_DATA_ATTR = "addressData";
 	private static final String ADDRESS_FORM_ATTR = "addressForm";
 	private static final String COUNTRY_ATTR = "country";
@@ -120,7 +121,7 @@ public class AccountPageController extends AbstractSearchPageController
 	private static final String REDIRECT_TO_PAYMENT_INFO_PAGE = REDIRECT_PREFIX + "/my-account/payment-details";
 	private static final String REDIRECT_TO_EDIT_ADDRESS_PAGE = REDIRECT_PREFIX + "/my-account/edit-address/";
 	private static final String REDIRECT_TO_UPDATE_EMAIL_PAGE = REDIRECT_PREFIX + "/my-account/update-email";
-	private static final String REDIRECT_TO_UPDATE_PROFILE = REDIRECT_PREFIX + "/my-account/update-profile";
+	protected static final String REDIRECT_TO_UPDATE_PROFILE = REDIRECT_PREFIX + "/my-account/update-profile";
 	private static final String REDIRECT_TO_PASSWORD_UPDATE_PAGE = REDIRECT_PREFIX + "/my-account/update-password";
 	private static final String REDIRECT_TO_ORDER_HISTORY_PAGE = REDIRECT_PREFIX + "/my-account/orders";
 	private static final String REDIRECT_TO_CONSENT_MANAGEMENT = REDIRECT_PREFIX + "/my-account/consents";
@@ -137,12 +138,12 @@ public class AccountPageController extends AbstractSearchPageController
 	private static final String ACCOUNT_CMS_PAGE = "account";
 	private static final String PROFILE_CMS_PAGE = "profile";
 	private static final String UPDATE_PASSWORD_CMS_PAGE = "updatePassword";
-	private static final String UPDATE_PROFILE_CMS_PAGE = "update-profile";
+	protected static final String UPDATE_PROFILE_CMS_PAGE = "update-profile";
 	private static final String UPDATE_EMAIL_CMS_PAGE = "update-email";
 	private static final String ADDRESS_BOOK_CMS_PAGE = "address-book";
 	private static final String ADD_EDIT_ADDRESS_CMS_PAGE = "add-edit-address";
 	private static final String PAYMENT_DETAILS_CMS_PAGE = "payment-details";
-	private static final String ORDER_HISTORY_CMS_PAGE = "orders";
+	protected static final String ORDER_HISTORY_CMS_PAGE = "orders";
 	private static final String ORDER_DETAIL_CMS_PAGE = "order";
 	private static final String CONSENT_MANAGEMENT_CMS_PAGE = "consents";
 	private static final String CLOSE_ACCOUNT_CMS_PAGE = "close-account";
@@ -150,19 +151,19 @@ public class AccountPageController extends AbstractSearchPageController
 	private static final Logger LOG = Logger.getLogger(AccountPageController.class);
 
 	@Resource(name = "orderFacade")
-	private OrderFacade orderFacade;
+	protected OrderFacade orderFacade;
 
 	@Resource(name = "acceleratorCheckoutFacade")
 	private CheckoutFacade checkoutFacade;
 
 	@Resource(name = "userFacade")
-	private UserFacade userFacade;
+	protected UserFacade userFacade;
 
 	@Resource(name = "customerFacade")
-	private CustomerFacade customerFacade;
+	protected CustomerFacade customerFacade;
 
 	@Resource(name = "accountBreadcrumbBuilder")
-	private ResourceBreadcrumbBuilder accountBreadcrumbBuilder;
+	protected ResourceBreadcrumbBuilder accountBreadcrumbBuilder;
 
 	@Resource(name = "passwordValidator")
 	private PasswordValidator passwordValidator;
@@ -515,6 +516,11 @@ public class AccountPageController extends AbstractSearchPageController
 		customerData.setLastName(updateProfileForm.getLastName());
 		customerData.setUid(currentCustomerData.getUid());
 		customerData.setDisplayUid(currentCustomerData.getDisplayUid());
+
+		if (currentCustomerData.getAffiliationStatus() == null)
+		{
+			customerData.setAffiliationStatus(AffiliationStatus.REQUESTED);
+		}
 
 		model.addAttribute(TITLE_DATA_ATTR, userFacade.getTitles());
 
