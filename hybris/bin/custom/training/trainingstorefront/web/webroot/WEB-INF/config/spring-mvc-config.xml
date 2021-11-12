@@ -121,7 +121,6 @@
 		<bean class="org.training.storefront.interceptors.beforeview.CookieNotificationBeforeViewHandler">
 			<property name="cookieNotificationCookieGenerator" ref="cookieNotificationCookieGenerator" />
 		</bean>
-
 	</util:list>
 	
 	<!-- Interceptor that runs once per request and before the controller handler method is called -->

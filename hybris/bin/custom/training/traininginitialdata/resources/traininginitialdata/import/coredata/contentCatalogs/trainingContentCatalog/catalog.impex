@@ -4,7 +4,7 @@
 #
 # Import the Content Catalog
 #
-$contentCatalog=__CONTENT_CATALOG_NAME__
+$contentCatalog=trainingContentCatalog
 $languages=ja,en,de,zh
 
 # Content catalog for CMS contents

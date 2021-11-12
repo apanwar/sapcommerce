@@ -1,0 +1,17 @@
+$contentCatalog = electronicsContentCatalog
+$contentCV = catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]), CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+
+# Language
+$lang = en
+
+UPDATE CMSLinkComponent; $contentCV[unique = true]; uid[unique = true]         ; linkName[lang = $lang]
+                       ;                          ; AccountAffiliateIncomeLink ; "Affiliate Income"
+
+UPDATE CMSNavigationNode; $contentCV[unique = true]; uid[unique = true]            ; title[lang = $lang]
+                        ;                          ; AccountAffiliateIncomeNavNode ; "Affiliate Income"
+
+
+
+
+
+

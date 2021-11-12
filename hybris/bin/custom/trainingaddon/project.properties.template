@@ -1,0 +1,17 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# you can put key/value pairs here.
+# Use Config.getParameter(..) to retrieve the values during runtime.
+
+trainingaddon.key=value
+
+# Specifies the location of the spring context file added automatically to the global platform application context.
+trainingaddon.application-context=trainingaddon-spring.xml
+
+yacceleratorstorefront.additionalWebSpringConfigs.trainingaddon=classpath:/trainingaddon/web/spring/trainingaddon-web-spring.xml
+
+
+
+trainingaddon.javascript.paths.responsive=/responsive/common/js/trainingaddon.js
+trainingaddon.css.paths.responsive=/responsive/common/css/trainingaddon.css

@@ -1,0 +1,30 @@
+
+$contentCatalog=electronicsContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+
+
+INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);label;defaultPage[default='true'];approvalStatus(code)[default='approved'];homepage[default='false']
+;;productregistrationbenefits;Product Registration Benefits Page;ContentPage1Template;/productregistrationbenefits
+
+;;myregisteredproducts;My Registered Produts Page;AccountPageTemplate;myregistredproducts
+
+# CMSParagraphComponent
+INSERT_UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;;;;
+;;productregistrationbenefitsMenuParagraph;Product Registration Benefits Menu Paragraph;productregistrationbenefitsMenuParagraph;;;;
+;;productregistrationbenefitsTextParagraph;Product Registration Benefits Text Paragraph;productregistrationbenefitsTextParagraph;;;;
+
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;Section2ASlot-productregistrationbenefits;Section2A Slot for productregistrationbenefits Page;true;productregistrationbenefitsMenuParagraph;;;
+;;Section2BSlot-productregistrationbenefits;Section2B Slot for productregistrationbenefits Page;true;productregistrationbenefitsTextParagraph;;;
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='productregistrationbenefits'];contentSlot(uid,$contentCV)[unique=true];;;
+;;Section2A-productregistrationbenefits;Section2A;;Section2ASlot-productregistrationbenefits;;;
+;;Section2B-productregistrationbenefits;Section2B;;Section2BSlot-productregistrationbenefits;;;
+
+
+INSERT_UPDATE CMSLinkComponent;$contentCV[unique=true];uid[unique=true];name;url;&linkRef;&componentRef;target(code)[default='sameWindow'];$category;$product;
+#;;AccountProfileLink;AccountProfileLink;/my-account/myregisteredproducts;AccountProfileLink;AccountProfileLink;;;;
+
+

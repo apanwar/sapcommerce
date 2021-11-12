@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+           
+    <context:annotation-config/> 
+
+	<bean id="affiliateprogramaddonCoreDataImportedEventListener" parent="abstractCoreDataImportedEventListener">
+		<property name="supportedChannels">
+			<list value-type="de.hybris.platform.commerceservices.enums.SiteChannel">
+				<value>B2C</value>
+			</list>
+		</property>
+		<property name="addonExtensionMetadata">
+			<bean class="de.hybris.platform.addonsupport.data.AddonExtensionMetadata">
+				<property name="suffixChannel" value="false"/>
+				<property name="baseExtensionName" value="affiliateprogramaddon"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="affiliateprogramaddonSampleDataEventListener" parent="abstractGenericAddOnSampleDataEventListener"  >
+		<property name="extensionName" value="affiliateprogramaddon" />
+	</bean>
+
+	<alias name="defaultAffiliatesDao" alias="affiliatesDao"/>
+	<bean id="defaultAffiliatesDao" class="org.training.affiliateprogramaddon.affiliates.dao.impl.DefaultAffiliatesDao">
+		<property name="flexibleSearchService" ref="flexibleSearchService"/>
+	</bean>
+
+	<alias name="defaultAffiliatesService" alias="affiliatesService"/>
+	<bean id="defaultAffiliatesService" class="org.training.affiliateprogramaddon.affiliates.service.impl.DefaultAffiliateService">
+		<property name="affiliatesDao" ref="affiliatesDao"/>
+		<property name="userService" ref="userService" />
+	</bean>
+
+	<bean id="affiliatesApprovalJob" class="org.training.affiliateprogramaddon.affiliates.jobs.AffiliatesApprovalJob" parent="abstractJobPerformable">
+		<property name="modelService" ref="modelService"/>
+		<property name="affiliatesService" ref="affiliatesService"/>
+	</bean>
+
+	<bean id="affiliateCalculationMethodHook" class="org.training.affiliateprogramaddon.affiliates.hook.AffiliateCalculationMethodHook">
+		<property name="sessionService" ref="sessionService"/>
+	</bean>
+
+	<bean depends-on="commerceCartCalculationMethodHooks" parent="listMergeDirective">
+		<property name="add" ref="affiliateCalculationMethodHook"/>
+	</bean>
+
+	<bean id="affiliatePlaceOrderMethodHook" class="org.training.affiliateprogramaddon.affiliates.hook.AffiliatePlaceOrderMethodHook">
+		<property name="eventService" ref="eventService"/>
+	</bean>
+
+	<bean depends-on="commercePlaceOrderMethodHooks" parent="listMergeDirective">
+		<property name="add" ref="affiliatePlaceOrderMethodHook"/>
+	</bean>
+
+	<bean id="affiliateComissionEventListener" class="org.training.affiliateprogramaddon.affiliates.event.listener.AffiliateComissionEventListener" parent="abstractEventListener">
+		<property name="modelService" ref="modelService"/>
+		<property name="affiliatesService" ref="affiliatesService"/>
+	</bean>
+
+	<bean id="affiliationStatusPopulator" class="org.training.affiliateprogramaddon.affiliates.populators.AffiliationStatusPopulator"/>
+
+	<alias name="trainingCustomerFacade" alias="customerFacade"/>
+	<bean id="trainingCustomerFacade" class="org.training.affiliateprogramaddon.affiliates.facades.impl.TrainingCustomerFacade" parent="defaultCustomerFacade">
+		<property name="affiliationStatusPopulator" ref="affiliationStatusPopulator"/>
+	</bean>
+
+	<bean id="affiliationStatusDataPopulator" class="org.training.affiliateprogramaddon.affiliates.populators.AffiliationStatusDataPopulator"/>
+
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="customerConverter"/>
+		<property name="add" ref="affiliationStatusDataPopulator"/>
+	</bean>
+
+	<bean id="affiliateIncomeDataPopulator" class="org.training.affiliateprogramaddon.affiliates.populators.AffiliateIncomeDataPopulator">
+		<property name="priceDataFactory" ref="priceDataFactory"/>
+	</bean>
+
+	<alias name="defaultAffiliateIncomeConverter" alias="affiliateIncomeConverter"/>
+	<bean id="defaultAffiliateIncomeConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="org.training.affiliateprogramaddon.affiliates.data.AffiliateIncomeData"/>
+		<property name="populators">
+			<list>
+				<ref bean="affiliateIncomeDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultAffiliateFacade" alias="affiliateFacade"/>
+	<bean id="defaultAffiliateFacade" class="org.training.affiliateprogramaddon.affiliates.facades.impl.DefaultAffiliateFacade">
+		<property name="affiliateIncomeConverter" ref="affiliateIncomeConverter"/>
+		<property name="affiliatesService" ref="affiliatesService"/>
+	</bean>
+
+</beans>

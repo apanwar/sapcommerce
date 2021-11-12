@@ -1,0 +1,6 @@
+$catalog=electronicsProductCatalog
+$catalogVersion=catalogVersion(catalog(id[default=$catalog]),version[default=Staged])
+
+UPDATE Product;code[unique=true];$catalogVersion[unique=true];countryofOrigin(isocode)
+;23191;;US
+;23231;;GB
