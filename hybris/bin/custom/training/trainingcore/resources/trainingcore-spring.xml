@@ -33,6 +33,10 @@
         <property name="priceComparator" ref="volumePriceComparator"/>
         <property name="catalogVersionService" ref="catalogVersionService"/>
     </bean>
+    
+    <bean id="contactlessDeliverySupportedValueProvider" class="org.training.core.search.solrfacetsearch.provider.impl.ContactlessDeliverySupportedValueProvider">
+    	<property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
 
     <bean id="volumePriceComparator" class="org.training.core.comparators.VolumeAwarePriceInformationComparator" scope="singleton"/>
 
@@ -538,4 +542,5 @@
 		<property name="itemCleanupHooks" ref="csTicketRetentionHooks"/>
 		<property name="ticketBusinessService" ref="ticketBusinessService"/>
 	</bean>
+	
 </beans>

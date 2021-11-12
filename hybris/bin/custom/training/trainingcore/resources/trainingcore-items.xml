@@ -25,7 +25,23 @@
             <value code="WHITE"/>
             <value code="YELLOW"/>
         </enumtype>
+        
+
     </enumtypes>
+    
+    <relations>
+        <relation localized="false" code="PostalCodeZoneRel">
+    		<deployment table="postalcodezonerel" typecode="30101"/>
+    		<sourceElement type="Zone" cardinality="many" qualifier="assignedZones"/>
+    		<targetElement type="PostalCode" cardinality="many" qualifier="postalCodes"/>
+    	</relation>
+    	<relation localized="false" code="ProductPostalCodeRel">
+    		<deployment table="prodpostalcoderel" typecode="30102"/>
+    		<sourceElement type="Product" cardinality="many" qualifier="availableProducts"/>
+    		<targetElement type="PostalCode" cardinality="many" qualifier="supportedPostalCodes"/>
+    	</relation>
+    	
+    </relations>
 
     <itemtypes>
 
@@ -112,6 +128,19 @@
                 </attributes>
             </itemtype>
         </typegroup>
+        
+        <typegroup name="delivery">
+        	<itemtype code="PostalCode">
+        		<deployment table="postalcodes" typecode="30100"/>
+        		<attributes>
+        			<attribute type="java.lang.String" qualifier="postalcode">
+        				<modifiers unique="true" optional="false" initial="true" write="false"/>
+        				<persistence type="property"/>
+        			</attribute>
+        		</attributes>
+        	</itemtype>
+        </typegroup>
+        
         
 
     </itemtypes>

@@ -1,0 +1,11 @@
+
+INSERT_UPDATE ServiceLayerJob;code[unique=true];springId
+;affiliatesApprovalJob;affiliatesApprovalJob
+
+INSERT_UPDATE CronJob;code[unique=true];job(code);sessionLanguage(isoCode)[default=en];
+;affiliatesApprovalCronJob;affiliatesApprovalJob
+
+
+# TRIGGER
+INSERT_UPDATE Trigger; cronJob(code)[unique=true]; minute;relative;active[default=true]
+; affiliatesApprovalCronJob;30;true
