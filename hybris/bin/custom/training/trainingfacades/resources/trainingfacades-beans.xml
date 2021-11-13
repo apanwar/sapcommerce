@@ -6,10 +6,13 @@
 
 	<bean class="de.hybris.platform.commercefacades.product.data.ProductData">
 		<property name="genders" type="java.util.List&lt;org.training.facades.product.data.GenderData>"/>
+		<property name="countryOfOrigin" type="String"/>  
+		<property name="contactlessdelivery" type="Integer"/> 
 	</bean>
 
 	<bean class="org.training.facades.product.data.GenderData">
 		<property name="code" type="String"/>
 		<property name="name" type="String"/>
 	</bean>
+	
 </beans>

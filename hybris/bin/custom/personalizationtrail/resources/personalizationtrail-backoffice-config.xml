@@ -1,0 +1,63 @@
+<config xmlns="http://www.hybris.com/cockpit/config"
+        xmlns:y="http://www.hybris.com/cockpit/config/hybris"
+        xmlns:wz="http://www.hybris.com/cockpitng/config/wizard-config"
+        xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree"
+        xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea"
+        xmlns:list-view="http://www.hybris.com/cockpitng/component/listView"
+        xmlns:advanced-search="http://www.hybris.com/cockpitng/config/advancedsearch"
+        xmlns:simple-search="http://www.hybris.com/cockpitng/config/simplesearch">
+     
+     
+        <!-- Explorer tree configuration -->
+    <context component="explorer-tree" merge-by="module" parent="auto" module="personalizationtrail">
+        <explorer-tree:explorer-tree>
+            <explorer-tree:navigation-node id="cxnode">
+                <explorer-tree:navigation-node id="cxtriggers">
+                    <explorer-tree:type-node code="UserGroupTrigger" id="usergrouptrigger" />
+                </explorer-tree:navigation-node>
+            </explorer-tree:navigation-node>
+        </explorer-tree:explorer-tree>
+    </context>
+     
+    <!-- UserGroupTrigger configuration -->
+    <!-- Base configuration -->
+    <context type="UserGroupTrigger" component="base" merge-by="type" parent="CxAbstractTrigger">
+        <y:base>
+            <y:labels>
+                <y:label>code + " (" + variation.code+","+userGroup.uid +")" + " : " + catalogVersion.version</y:label>
+            </y:labels>
+        </y:base>
+    </context>
+    <!-- Editor area configuration -->
+    <context type="UserGroupTrigger" component="editor-area" merge-by="type" parent="CxAbstractTrigger" >
+        <editorArea:editorArea>
+            <editorArea:tab name="backoffice.personalizationservices.properties">
+                <editorArea:section
+                    name="backoffice.personalizationservices.section.attributes">
+                    <editorArea:attribute qualifier="userGroup" />
+                </editorArea:section>
+            </editorArea:tab>
+        </editorArea:editorArea>
+    </context>
+    <!-- List view configuration -->
+    <context type="UserGroupTrigger" component="listview" merge-by="type" parent="CxAbstractTrigger" >
+        <list-view:list-view>
+            <list-view:column qualifier="userGroup" />
+        </list-view:list-view>
+    </context>
+    <!-- Advanced search configuration -->
+    <context type="UserGroupTrigger" component="advanced-search" merge-by="type" parent="CxAbstractTrigger" >
+        <advanced-search:advanced-search>
+            <advanced-search:field-list>
+                <advanced-search:field name="userGroup" selected="true" />
+            </advanced-search:field-list>
+        </advanced-search:advanced-search>
+    </context>
+    <!-- Simple search configuration -->
+    <context type="UserGroupTrigger" component="simple-search" merge-by="type" parent="CxAbstractTrigger" >
+        <simple-search:simple-search>
+            <simple-search:field name="code" />
+        </simple-search:simple-search>
+    </context>   
+ 
+</config>

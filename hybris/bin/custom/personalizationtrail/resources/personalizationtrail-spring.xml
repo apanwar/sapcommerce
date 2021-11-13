@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	
+	
+    <bean id="personalizationtrailSystemSetup" class="de.hybris.personalizationtrail.setup.PersonalizationtrailSystemSetup">
+        <!-- constructor arg injection example -->
+        <constructor-arg ref="personalizationtrailService"/>
+    </bean>
+
+    <bean id="personalizationtrailService" class="de.hybris.personalizationtrail.service.impl.DefaultPersonalizationtrailService">
+        <!-- setter injection example -->
+        <property name="modelService" ref="modelService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+		<alias name="defaultUserGroupTriggerDao" alias="userGroupTriggerDao"/>
+		<bean id="defaultUserGroupTriggerDao" parent="baseCxDao" class="de.hybris.personalizationtrail.trigger.dao.impl.DefaultUserGroupTriggerDao"  />
+	
+	<bean id="userGroupTriggerStrategy" class="de.hybris.personalizationtrail.trigger.strategy.impl.DefaultUserGroupTriggerStrategy">
+    	<property name="userService" ref="userService" />
+    	<property name="userGroupTriggerDao" ref="userGroupTriggerDao" />
+	</bean>
+	
+	<bean id="userGroupTriggerPopulator" class="de.hybris.personalizationtrail.trigger.converters.populator.UserGroupTriggerPopulator" />
+ 
+		<bean id="userGroupTriggerForVariationPopulators" parent="abstractPopulatorList" >
+		    <property name="populators">
+		        <list>
+		            <ref bean="cxTriggerPopulator" />
+		            <ref bean="userGroupTriggerPopulator" />
+		        </list>
+		    </property>
+		</bean>
+		 
+		<bean id="userGroupTriggerFullPopulators" parent="abstractPopulatorList" >
+		    <property name="populators">
+		        <list>
+		            <ref bean="cxTriggerPopulator" />
+		            <ref bean="cxTriggerWithVariationPopulator" />
+		            <ref bean="userGroupTriggerPopulator" />
+		        </list>
+		    </property>
+		</bean>
+		 
+		<bean id="userGroupTriggerConfigurableConverter" parent="cxSubtypeConverter" >
+		    <constructor-arg name="markerClass" value="de.hybris.platform.personalizationfacades.trigger.converters.TriggerConverter" />
+		    <constructor-arg name="sourceClass" value="de.hybris.personalizationtrail.model.UserGroupTriggerModel" />
+		    <property name="targetClass" value="de.hybris.personalizationtrail.data.UserGroupTriggerData" />
+		    <property name="populators">
+		        <map key-type="de.hybris.platform.personalizationfacades.enums.TriggerConversionOptions">
+		            <entry key="BASE" value-ref="cxTriggerPopulators" />
+		            <entry key="FOR_VARIATION" value-ref="userGroupTriggerForVariationPopulators" />
+		            <entry key="FULL" value-ref="userGroupTriggerFullPopulators" />   
+		        </map>
+		    </property>
+		</bean>
+		
+		<bean id="userGroupTriggerSubclassMapping" parent="subclassMapping">
+		    <property name="parentClass" value="de.hybris.platform.personalizationfacades.data.TriggerData" />
+		    <property name="subclassesSet" value="de.hybris.personalizationtrail.data.UserGroupTriggerData" />
+		</bean>
+		
+		<bean id="userGroupTriggerDataFieldMapper" parent="fieldMapper">
+		    <property name="sourceClass" value="de.hybris.personalizationtrail.data.UserGroupTriggerData"/>
+		    <property name="destClass"   value="de.hybris.personalizationtrail.data.UserGroupTriggerData"/>
+		</bean>
+		
+		<bean id="userGroupTriggerDataFieldSetLevelMapping" parent="fieldSetLevelMapping" >
+		    <property name="dtoClass" value="de.hybris.personalizationtrail.data.UserGroupTriggerData"/>
+		    <property name="levelMapping">
+		        <map>
+		            <entry key="BASIC" value="code"/>
+		            <entry key="DEFAULT" value="code,userGroupUid,variation(DEFAULT)"/>
+		            <entry key="FULL" value="code,userGroupUid,variation(FULL)"/>
+		        </map>
+		    </property>
+		</bean>
+		
+		<bean id="userGroupTriggerReversePopulator" class="de.hybris.personalizationtrail.trigger.converters.populator.UserGroupTriggerReversePopulator" >
+		    <property name="userService" ref="userService" />
+		</bean>
+		 
+		<bean id="userGroupTriggerReversePopulators" parent="abstractPopulatorList" >
+		    <property name="populators">
+		        <list>
+		            <ref bean="cxTriggerReversePopulators" />
+		            <ref bean="userGroupTriggerReversePopulator" />
+		        </list>
+		    </property>
+		</bean>
+		<bean id="userGroupTriggerReverseConverter" parent="cxSubtypeConverter">
+		    <constructor-arg name="markerClass" value="de.hybris.platform.personalizationfacades.trigger.converters.TriggerReverseConverter" />
+		    <constructor-arg name="sourceClass" value="de.hybris.personalizationtrail.data.UserGroupTriggerData" />
+		    <property name="targetClass" value="de.hybris.personalizationtrail.model.UserGroupTriggerModel" />
+		    <property name="populators">
+		        <map>
+		            <entry key="BASE" value-ref="userGroupTriggerReversePopulators"/>
+		        </map>
+		    </property>
+		</bean>
+		
+		<bean id="userGrouptTriggerValidator" class="de.hybris.personalizationtrail.trigger.validator.UserGroupTriggerDataValidator" />
+</beans>

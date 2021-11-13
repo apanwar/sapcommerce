@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+--><extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
+           
+    
+    <extension abstractclassprefix="Generated" classprefix="Personalizationtrail" jaloLogicFree="true" managername="PersonalizationtrailManager" managersuperclass="de.hybris.platform.jalo.extension.Extension" name="personalizationtrail" usemaven="false">
+                  
+      
+        
+    <requires-extension name="personalizationservices"/>    
+	<requires-extension name="personalizationfacades"/>  
+	<requires-extension name="personalizationwebservices"/>
+      
+
+      
+        
+        <coremodule generated="true" manager="de.hybris.personalizationtrail.jalo.PersonalizationtrailManager" packageroot="de.hybris.personalizationtrail"/>
+                      
+        
+        <webmodule jspcompile="false" webroot="/personalizationtrail"/>
+                					
+		<meta key="backoffice-module" value="true"/>
+        
+           
+    
+    </extension>
+              
+
+
+</extensioninfo>

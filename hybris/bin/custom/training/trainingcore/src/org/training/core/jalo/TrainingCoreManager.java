@@ -5,13 +5,14 @@ package org.training.core.jalo;
 
 import de.hybris.platform.jalo.JaloSession;
 import de.hybris.platform.jalo.extension.ExtensionManager;
+
 import org.training.core.constants.TrainingCoreConstants;
 import org.training.core.setup.CoreSystemSetup;
 
 
 /**
  * Do not use, please use {@link CoreSystemSetup} instead.
- * 
+ *
  */
 public class TrainingCoreManager extends GeneratedTrainingCoreManager
 {
@@ -20,4 +21,6 @@ public class TrainingCoreManager extends GeneratedTrainingCoreManager
 		final ExtensionManager em = JaloSession.getCurrentSession().getExtensionManager();
 		return (TrainingCoreManager) em.getExtension(TrainingCoreConstants.EXTENSIONNAME);
 	}
+
+
 }

@@ -182,4 +182,27 @@
 	</bean>
 
 	<bean id="genderData" class="org.training.facades.product.data.GenderData" scope="prototype"/>
+	<bean id ="countryOfOriginPoPulator" class="org.training.facades.populators.ProductCountryOfOriginPoPulator"/>
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="productConverter"/>
+		<property name="add" ref="countryOfOriginPoPulator"></property> 
+	</bean> 
+	
+	<bean id ="productContactlessDeliveryPopulator" class="org.training.facades.populators.ProductContactlessDeliveryPopulator"/>
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="productConverter"/>
+		<property name="add" ref="productContactlessDeliveryPopulator"></property> 
+	</bean> 
+	
+	<bean id="productListCountryOfOriginPopulator" class="org.training.facades.populators.ProductListCountryOfOriginPopulator"/>
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="commerceSearchResultProductConverter"/>
+		<property name="add" ref="productListCountryOfOriginPopulator"/>
+	</bean>
+	
+	<bean id="productListContactlessdeliveryPopulator" class="org.training.facades.populators.ProductListContactlessdeliveryPopulator"/>
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="commerceSearchResultProductConverter"/>
+		<property name="add" ref="productListContactlessdeliveryPopulator"/>
+	</bean>
 </beans>

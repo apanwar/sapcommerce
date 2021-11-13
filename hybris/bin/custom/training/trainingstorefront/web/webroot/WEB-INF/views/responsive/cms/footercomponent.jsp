@@ -17,6 +17,7 @@
                                 <div class="footer__nav--container col-xs-12 col-sm-3">
                                     <c:if test="${component.wrapAfter > i.index}">
                                         <div class="title">${fn:escapeXml(node.title)}</div>
+                                        
                                     </c:if>
                                     <ul class="footer__nav--links">
                                         <c:forEach items="${node.links}" var="childlink"
@@ -31,6 +32,7 @@
                     </c:forEach>
                 </div>
             </div>
+           
             <div class="footer__right col-xs-12 col-md-3">
                 <c:if test="${showLanguageCurrency}">
                     <div class="row">
@@ -42,6 +44,7 @@
                             <footer:currencySelector currencies="${currencies}"
                                                      currentCurrency="${currentCurrency}" />
                         </div>
+                         
                     </div>
                 </c:if>
             </div>

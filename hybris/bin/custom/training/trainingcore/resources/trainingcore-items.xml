@@ -8,6 +8,7 @@
         <collectiontype code="GenderList" elementtype="Gender" autocreate="true" generate="true" type="list"/>
         <collectiontype code="SwatchColorSet" elementtype="SwatchColorEnum" autocreate="true" generate="true"
                         type="set"/>
+      
     </collectiontypes>
 
     <enumtypes>
@@ -25,11 +26,26 @@
             <value code="WHITE"/>
             <value code="YELLOW"/>
         </enumtype>
-    </enumtypes>
-
+        
+		<enumtype code="Boolean">
+			<value code="true"/>
+			<value code="false"/>
+		</enumtype>
+	</enumtypes>
+   
     <itemtypes>
 
         <!-- Add your item definitions here -->
+        <itemtype code="Product" autocreate="false" generate="false">
+        	<attributes>
+	        	<attribute type="Country" qualifier="countryOfOrigin">
+	        		<persistence type="property"/>
+	        	</attribute>
+	        	<attribute type="java.lang.Integer" qualifier="contactlessdelivery">
+	        		<persistence type="property"/>
+	        	</attribute>
+        	</attributes>
+        </itemtype>
 
 
         <!-- TypeGroups are for structure of this file only -->

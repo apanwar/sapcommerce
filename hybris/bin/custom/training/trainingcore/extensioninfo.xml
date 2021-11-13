@@ -12,7 +12,7 @@
                 		
         
         <requires-extension name="acceleratorcms"/>
-                		
+  
         
         <coremodule generated="true" manager="org.training.core.jalo.TrainingCoreManager" packageroot="org.training.core"/>
                 		

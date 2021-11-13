@@ -169,5 +169,8 @@
     <extension name='permissionswebservices' />
     <extension name='webservicescommons' />
     <extension name='ywebservices' />
+	<extension name="promotionenginetrail" />
+	<extension name="personalizationtrail"/>
+	
   </extensions>
 </hybrisconfig>

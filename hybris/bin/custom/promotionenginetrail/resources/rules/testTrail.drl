@@ -1,0 +1,35 @@
+package de.hybris.platform.promotionengineservices.test
+import java.util.Map;
+import de.hybris.platform.ruleengineservices.rao.CartRAO;
+import de.hybris.platform.ruleengineservices.rao.OrderEntryRAO;
+import de.hybris.platform.ruleengineservices.rao.UserGroupRAO;
+import de.hybris.platform.promotionenginetrail.rao.CustomerReviewRAO;
+import de.hybris.platform.ruleengineservices.rao.RuleEngineResultRAO;
+import de.hybris.platform.ruleengineservices.rao.WebsiteGroupRAO;
+import de.hybris.platform.ruleengineservices.rrd.RuleConfigurationRRD;
+import de.hybris.platform.droolsruleengineservices.compiler.impl.DefaultDroolsRuleActionContext;
+ 
+global de.hybris.platform.ruleengineservices.rule.evaluation.RuleExecutableAction addUserToUserGroupAction;
+rule "a550997f-56de-4f81-96f2-392a7830f78b"
+@ruleCode("testTrail")
+@moduleName("promotions-module")
+dialect "mvel"
+   salience 10
+   when
+        $cart : CartRAO();
+        OrderEntryRAO($codeFromEntry : productCode) //get product codes from order entries
+        CustomerReviewRAO(productCode == $codeFromEntry) //check if there is CustomerReviewRAO for the products in order entries
+        not (exists UserGroupRAO( id == "reviewedProductsCustomerGroup" )) //check if current cart user is not already in the group "reviewedProductsCustomerGroup"
+        $executionTracker := RuleAndRuleGroupExecutionTracker()
+        $result : RuleEngineResultRAO()
+        $websiteGroup : WebsiteGroupRAO( id == "electronicsPromoGrp")
+   then
+	Map variables = [
+        "de.hybris.platform.ruleengineservices.rao.CartRAO" : $cart,
+        "de.hybris.platform.ruleengineservices.rao.RuleEngineResultRAO" : $result,
+        "de.hybris.platform.ruleengineservices.rao.WebsiteGroupRAO" : $websiteGroup
+        ];
+        addUserToUserGroupAction.executeAction(new DefaultDroolsRuleActionContext(variables, kcontext), ["value_uuid":"3ae37229-4a94-4aba-821b-aaf640c19423", "value":"reviewedProductsCustomerGroup"]);
+        $executionTracker.trackRuleExecution(kcontext);
+
+end

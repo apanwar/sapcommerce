@@ -12,7 +12,7 @@
             <cms:pageSlot position="Section2A" var="feature" element="div" class="row no-margin">
                 <cms:component component="${feature}" element="div" class="col-xs-12 col-sm-6 no-space yComponentWrapper"/>
             </cms:pageSlot>
-        </div>
+        </div> 
         <div class="col-xs-12 col-md-6 no-space">
             <cms:pageSlot position="Section2B" var="feature" element="div" class="row no-margin">
                 <cms:component component="${feature}" element="div" class="col-xs-12 col-sm-6 no-space yComponentWrapper"/>

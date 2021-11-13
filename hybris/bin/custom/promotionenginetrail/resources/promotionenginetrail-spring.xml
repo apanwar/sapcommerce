@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	
+	
+    <bean id="promotionenginetrailSystemSetup" class="de.hybris.promotionenginetrail.setup.PromotionenginetrailSystemSetup">
+        <!-- constructor arg injection example -->
+        <constructor-arg ref="promotionenginetrailService"/>
+    </bean>
+
+    <bean id="promotionenginetrailService" class="de.hybris.promotionenginetrail.service.impl.DefaultPromotionenginetrailService">
+        <!-- setter injection example -->
+        <property name="modelService" ref="modelService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+			
+	<alias name="defaultReviewRaoConverter" alias="customerReviewRaoConverter" />
+    <bean id="defaultReviewRaoConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.promotionenginetrail.rao.CustomerReviewRAO" />
+        <property name="populators">
+            <list>
+                <ref bean="customerReviewRaoPopulator" />
+            </list>
+        </property>
+    </bean>
+
+		<alias name="defaultCustomerReviewRaoPopulator" alias="customerReviewRaoPopulator"/>
+		<bean id="defaultCustomerReviewRaoPopulator" class="de.hybris.promotionenginetrail.converters.populator.CustomerReviewRaoPopulator">
+		</bean>
+		
+		<alias name="promotionenginetrailUserRaoPopulator" alias="promotionenginetrailUserRaoPopulator" />
+		<bean id="promotionenginetrailUserRaoPopulator" class="de.hybris.promotionenginetrail.converters.populator.PromotionenginetrailUserRaoPopulator" >
+    		<property name="customerReviewConverter" ref="customerReviewRaoConverter" />
+		</bean>
+		<bean parent="modifyPopulatorList">
+			<property name="list" ref="userRaoConverter" />
+			<property name="add" ref="promotionenginetrailUserRaoPopulator" />	
+		</bean>
+		<alias name="defaultCustomerReviewRaoExtractor" alias="customerReviewRaoExtractor"/>
+		<bean id="defaultCustomerReviewRaoExtractor" class="de.hybris.promotionenginetrail.rao.providers.impl.CustomerReviewRaoExtractor"/>
+		
+		<bean id="promotionEngineTrailcartRAOProviderExtractorsListMergeDirective" depends-on="cartRAOProviderExtractors" parent="listMergeDirective">
+			<property name="add" ref="customerReviewRaoExtractor"/>
+		</bean>
+		
+		<alias alias="addUserToUserGroupRAOAction" name="defaultAddUserToUserGroupRAOAction" />
+			<bean id="defaultAddUserToUserGroupRAOAction" parent="abstractRuleExecutableSupport" class="de.hybris.promotionenginetrail.rule.action.impl.AddUserToUserGroupRAOAction"/>
+			 
+			<alias alias="addUserToUserGroupAction" name="defaultAddUserToUserGroupAction" />
+			<bean id="defaultAddUserToUserGroupAction" class="de.hybris.platform.ruledefinitions.actions.DefaultRuleExecutableAction">
+				<property name="raoAction" ref="addUserToUserGroupRAOAction"/>
+		</bean>
+		<alias name="defaultAddUserToUserGroupActionStrategy" alias="addUserToUserGroupActionStrategy"/>
+		<bean id="defaultAddUserToUserGroupActionStrategy" parent="abstractRuleActionStrategy" class="de.hybris.promotionenginetrail.action.DefaultAddUserToUserGroupActionStrategy" >
+		    <property name="promotionAction" value="de.hybris.promotionenginetrail.model.RuleBasedAddUserToUserGroupActionModel"/>
+		    <property name="userService" ref="userService" />
+		</bean>
+		<bean id="promotionenginetrailActionStrategies" depends-on="actionStrategies" parent="listMergeDirective">
+		    <property name="add" ref="defaultAddUserToUserGroupActionStrategy" />
+		</bean>
+		 
+		<bean id="promotionenginetrailPromotionActionStrategiesMapping" depends-on="promotionActionStrategiesMapping" parent="mapMergeDirective">
+		    <property name="key" value="defaultAddUserToUserGroupRAOAction" />
+		    <property name="value" ref="defaultAddUserToUserGroupActionStrategy" />
+		</bean>
+		<alias alias="ruleCustomerReviewTranslator" name="defaultRuleCustomerReviewTranslator" />
+		<bean id="defaultRuleCustomerReviewTranslator" class="de.hybris.promotionenginetrail.definitions.conditions.RuleCustomerReviewTranslator" />
+</beans>
