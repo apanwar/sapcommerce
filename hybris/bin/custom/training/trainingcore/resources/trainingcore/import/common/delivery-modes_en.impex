@@ -14,3 +14,5 @@ UPDATE ZoneDeliveryMode;code[unique=true];name[lang=$lang];description[lang=$lan
  ;premium-net;"Premium Delivery";"1-2 business days"
  ;standard-gross;"Standard Delivery";"3-5 business days"
  ;standard-net;"Standard Delivery";"3-5 business days"
+;fedex;"fedex";"service available 24*7"
+;UPS;"UPS";"service available 9 am to 5 pm"

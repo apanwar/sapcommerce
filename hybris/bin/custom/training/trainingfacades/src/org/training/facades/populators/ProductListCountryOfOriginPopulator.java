@@ -1,16 +1,13 @@
 package org.training.facades.populators;
 
 import de.hybris.platform.commercefacades.product.data.ProductData;
+import de.hybris.platform.commercefacades.search.converters.populator.SearchResultVariantProductPopulator;
 import de.hybris.platform.commerceservices.search.resultdata.SearchResultValueData;
-import de.hybris.platform.converters.Populator;
 import de.hybris.platform.servicelayer.dto.converter.ConversionException;
 
 
-/**
- * @author panwa
- *
- */
-public class ProductListCountryOfOriginPopulator implements Populator<SearchResultValueData, ProductData>
+
+public class ProductListCountryOfOriginPopulator extends SearchResultVariantProductPopulator
 {
 
 	@Override
@@ -22,6 +19,7 @@ public class ProductListCountryOfOriginPopulator implements Populator<SearchResu
 		}
 
 		final Object countryOfOrigin = source.getValues().get("countryOfOrigin");
+
 
 		if (null != countryOfOrigin)
 		{

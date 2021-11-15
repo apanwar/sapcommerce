@@ -7,6 +7,7 @@
 <%@ taglib prefix="ycommerce" uri="http://hybris.com/tld/ycommercetags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+
 <spring:htmlEscape defaultHtmlEscape="true" />
 
 <spring:theme code="text.addToCart" var="addToCartText"/>
@@ -45,7 +46,7 @@
 		<c:if test="${not empty product.summary}">
 			<div class="product__listing--description">${ycommerce:sanitizeHTML(product.summary)}</div>
 		</c:if>
-		
+		<div >${ycommerce:sanitizeHTML(product.countryOfOrigin)}</div>
 		
 			
 		
